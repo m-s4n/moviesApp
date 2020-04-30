@@ -1,3 +1,8 @@
 export default {
-    movies:[]
+    movies:{
+        isPending:false,
+        isFilled:false,
+        data:[],
+        isRejected:{}
+    }
 }
