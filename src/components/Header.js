@@ -29,7 +29,7 @@ const Header = () => {
               <Menu.Item header>Movies App</Menu.Item>
               <Menu.Item as={Link} to='/'>Home Page</Menu.Item>
               <Menu.Item as={Link} to='/movies'>Movies</Menu.Item>
-              <Menu.Item as="a">Add New</Menu.Item>
+              <Menu.Item as={Link} to='/movies/new'>Add New</Menu.Item>
             </Container>
           </Menu>
         </Visibility>

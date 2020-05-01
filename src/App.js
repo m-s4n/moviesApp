@@ -8,6 +8,7 @@ import {
 } from "semantic-ui-react";
 import Header from './components/Header';
 import Footer from "./components/Footer";
+import NewMovie from './components/pages/NewMovie';
 
 class App extends Component {
   state = {
@@ -38,6 +39,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/movies" component={Movies} />
+            <Route exact path="/movies/new" component={NewMovie} />
           </Switch>
         </Container>
         <Footer/>

@@ -10,9 +10,13 @@ const LoadingData = ({ data, Component, quantityInLine }) => {
   );
 
   const errorFetchData = (error) => {
-    return <p>{error}</p>;
+    return (
+      <div className="ui tertiary inverted segment">
+        <p>{error}</p>
+      </div>
+    );
   };
-  
+
   const dataList = (data) =>
     data.map((item) => <Component key={item._id} data={item}></Component>);
 
