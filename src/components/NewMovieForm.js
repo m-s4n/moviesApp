@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TextInput from "./tools/forms/TextInput";
 import SearchSelection from "./tools/forms/SearchSelection";
-import { Button } from "semantic-ui-react";
+import { Button, Image } from "semantic-ui-react";
 const NewMovieForm = () => {
   const [movie, setMovie] = useState({});
-  const [error, setError] = useState({});
+  const [error, setError] = useState({isError:false});
   useEffect(() => {
     console.log("form render oldu");
   });
@@ -73,15 +73,46 @@ const NewMovieForm = () => {
     if (name === "imdbScore" || name === "year") {
       value = parseFloat(value);
     }
+    else{
+      value = value.toString().trim();
+    }
     setMovie((currentMovie) => ({
       ...currentMovie,
-      [name]: value,
+      [name]: value
     }));
 
     // validation
     formValidator(name, value);
     console.log(movie);
   };
+
+  const formCheck = () => {
+    let isFormTrue = true;
+    let hasProperties = ['title', 'category', 'country', 'year', 'imdbScore', 'name', 'surname', 'bio', 'image'];
+    for(let property of hasProperties){
+      if(!movie.hasOwnProperty(property)){
+        setError(currentError => (
+          {
+            ...currentError,
+            [property]:property + ' alanı boş bırakılamaz',
+            isError:true
+          }
+        ))
+        isFormTrue = false;
+      }
+    }
+    return isFormTrue;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(formCheck()){
+      alert('Hata yok');
+    }
+    else{
+      alert('hata var');
+    }
+  }
 
   const onSelectCategory = (e, { value }) => {
     setMovie((currentMovie) => ({
@@ -101,9 +132,10 @@ const NewMovieForm = () => {
       setError((currentError) => ({
         ...currentError,
         [name]: "En az 5 karakter olmalıdır",
+        isError:true
       }));
     } else if (name === "title" && value.length >= 5) {
-      let newError = { ...error };
+      let newError = { ...error, isError:false };
       delete newError[name];
       setError(newError);
     }
@@ -115,14 +147,16 @@ const NewMovieForm = () => {
         setError((currentError) => ({
           ...currentError,
           [name]: "Yıl 1900 dan geri olamaz",
+          isError:true
         }));
       } else if (value > 2020) {
         setError((currentError) => ({
           ...currentError,
           [name]: "Yıl 2020 den ileri olamaz",
+          isError:true
         }));
       } else {
-        let newError = { ...error };
+        let newError = { ...error, isError:false};
         delete newError[name];
         setError(newError);
       }
@@ -136,14 +170,16 @@ const NewMovieForm = () => {
         setError((currentError) => ({
           ...currentError,
           [name]: "İmdb Score 1 den az olamaz",
+          isError:true
         }));
       } else if (newValue > 10) {
         setError((currentError) => ({
           ...currentError,
           [name]: "İmdb Score 10 dan yüksek olamaz",
+          isError:true
         }));
       } else {
-        let newError = { ...error };
+        let newError = { ...error, isError:false};
         delete newError[name];
         setError(newError);
       }
@@ -156,14 +192,16 @@ const NewMovieForm = () => {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor name en az 5 karakter olabilir",
+          isError:true
         }));
       } else if (value.length > 20) {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor name en fazla 20 karakter olabilir",
+          isError:true
         }));
       } else {
-        let newError = { ...error };
+        let newError = { ...error, isError:false};
         delete newError[name];
         setError(newError);
       }
@@ -176,14 +214,16 @@ const NewMovieForm = () => {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor Surname en az 5 karakter olabilir",
+          isError:true
         }));
       } else if (value.length > 20) {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor Surname en fazla 20 karakter olabilir",
+          isError:true
         }));
       } else {
-        let newError = { ...error };
+        let newError = { ...error, isError:false };
         delete newError[name];
         setError(newError);
       }
@@ -195,17 +235,33 @@ const NewMovieForm = () => {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor Biography en az 10 karakter olabilir",
+          isError:true
         }));
       } else if (value.length > 50) {
         setError((currentError) => ({
           ...currentError,
           [name]: "Direktor Biography en fazla 50 karakter olabilir",
+          isError:true
         }));
       } else {
-        let newError = { ...error };
+        let newError = { ...error, isError:false };
         delete newError[name];
         setError(newError);
       }
+    }
+  };
+
+  const imageValidator = (name, value) => {
+    if (name === "image" && value.length < 5) {
+      setError((currentError) => ({
+        ...currentError,
+        [name]: "En az 10 karakter olmalıdır",
+        isError:true
+      }));
+    } else if (name === "image" && value.length >= 5) {
+      let newError = { ...error, isError:false };
+      delete newError[name];
+      setError(newError);
     }
   };
 
@@ -216,10 +272,11 @@ const NewMovieForm = () => {
     nameValidator(name, value);
     surnameValidator(name, value);
     bioValidator(name, value);
+    imageValidator(name, value);
   };
 
   return (
-    <form className="ui form">
+    <form className="ui form" onSubmit={handleSubmit}>
       <TextInput
         name="title"
         placeHolder="Enter Title"
@@ -284,8 +341,20 @@ const NewMovieForm = () => {
         onChange={onChangeMovie}
         error={error}
       />
+
+      <TextInput
+        name='image'
+        placeHolder='Enter Image URL'
+        label='Image URL'
+        onChange={onChangeMovie}
+        error={error}
+      />
+
+      <div className='field'>
+        <Image src={movie['image']} size='small' />
+      </div>
       <div className="field">
-        <Button animated="fade">
+        <Button animated="fade" type='submit'>
           <Button.Content visible>Alanları doldurun</Button.Content>
           <Button.Content hidden>Kaydet</Button.Content>
         </Button>

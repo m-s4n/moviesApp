@@ -5,7 +5,7 @@ const MovieCart = ({ data }) => (
   <Grid.Column>
     <Card>
       <Image
-        src="https://3.bp.blogspot.com/-7hvztuBAX0s/U6r27SK0B-I/AAAAAAAAClQ/9RmkiDgpO38/s1600/The+Godfather+(8).jpg"
+        src={data.image}
         wrapped
         ui={false}
       />
