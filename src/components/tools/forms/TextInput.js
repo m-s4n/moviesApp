@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 const TextInput = ({ name, label, error, onChange, placeHolder }) => {
-  useEffect(() => {
-    console.log("text input render oldu");
-  });
   let cssStyle = error[name] ? 'field error' : 'field';
   const isError = <div className="ui orange message">{error[name]}</div>
   return (

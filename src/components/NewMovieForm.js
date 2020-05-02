@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextInput from "./tools/forms/TextInput";
 import SearchSelection from "./tools/forms/SearchSelection";
 import { Button, Image } from "semantic-ui-react";
-const NewMovieForm = () => {
+import alertify from 'alertifyjs';
+import {Redirect} from 'react-router-dom';
+
+const NewMovieForm = ({addedMovie, addMovie}) => {
   const [movie, setMovie] = useState({});
-  const [error, setError] = useState({isError:false});
-  useEffect(() => {
-    console.log("form render oldu");
-  });
+  const [error, setError] = useState({});
+
+  const addedSuccessfully = () => {
+    alertify.success('Movie added successfully');
+    return (
+      <Redirect to='/movies' exact/>
+    )
+  }
+
+  const addedAnOccurredError = () => {
+    alertify.error('An error occurred while add movie');
+  }
   const categories = [
     {
       key: 1,
@@ -107,35 +118,38 @@ const NewMovieForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(formCheck()){
-      alert('Hata yok');
-    }
-    else{
-      alert('hata var');
+      addMovie(movie);
     }
   }
 
   const onSelectCategory = (e, { value }) => {
+    let newError = {...error};
     setMovie((currentMovie) => ({
       ...currentMovie,
       category: value,
     }));
+    delete newError['category'];
+    setError(newError);
   };
   const onSelectCountry = (e, { value }) => {
+    let newError = {...error};
     setMovie((currentMovie) => ({
       ...currentMovie,
       country: value,
     }));
+
+    delete newError['country'];
+    setError(newError);
   };
 
   const titleValidator = (name, value) => {
-    if (name === "title" && value.length < 5) {
+    if (name === "title" && value.length < 10) {
       setError((currentError) => ({
         ...currentError,
-        [name]: "En az 5 karakter olmalıdır",
-        isError:true
+        [name]: "En az 10 karakter olmalıdır"
       }));
-    } else if (name === "title" && value.length >= 5) {
-      let newError = { ...error, isError:false };
+    } else if (name === "title" && value.length >= 10) {
+      let newError = { ...error};
       delete newError[name];
       setError(newError);
     }
@@ -146,17 +160,15 @@ const NewMovieForm = () => {
       if (value < 1900) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Yıl 1900 dan geri olamaz",
-          isError:true
+          [name]: "Yıl 1900 dan geri olamaz"
         }));
       } else if (value > 2020) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Yıl 2020 den ileri olamaz",
-          isError:true
+          [name]: "Yıl 2020 den ileri olamaz"
         }));
       } else {
-        let newError = { ...error, isError:false};
+        let newError = { ...error};
         delete newError[name];
         setError(newError);
       }
@@ -169,17 +181,15 @@ const NewMovieForm = () => {
       if (newValue < 1) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "İmdb Score 1 den az olamaz",
-          isError:true
+          [name]: "İmdb Score 1 den az olamaz"
         }));
       } else if (newValue > 10) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "İmdb Score 10 dan yüksek olamaz",
-          isError:true
+          [name]: "İmdb Score 10 dan yüksek olamaz"
         }));
       } else {
-        let newError = { ...error, isError:false};
+        let newError = { ...error};
         delete newError[name];
         setError(newError);
       }
@@ -191,17 +201,15 @@ const NewMovieForm = () => {
       if (value.length < 5) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor name en az 5 karakter olabilir",
-          isError:true
+          [name]: "Direktor name en az 5 karakter olabilir"
         }));
       } else if (value.length > 20) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor name en fazla 20 karakter olabilir",
-          isError:true
+          [name]: "Direktor name en fazla 20 karakter olabilir"
         }));
       } else {
-        let newError = { ...error, isError:false};
+        let newError = { ...error};
         delete newError[name];
         setError(newError);
       }
@@ -213,17 +221,15 @@ const NewMovieForm = () => {
       if (value.length < 5) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor Surname en az 5 karakter olabilir",
-          isError:true
+          [name]: "Direktor Surname en az 5 karakter olabilir"
         }));
       } else if (value.length > 20) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor Surname en fazla 20 karakter olabilir",
-          isError:true
+          [name]: "Direktor Surname en fazla 20 karakter olabilir"
         }));
       } else {
-        let newError = { ...error, isError:false };
+        let newError = { ...error};
         delete newError[name];
         setError(newError);
       }
@@ -234,17 +240,15 @@ const NewMovieForm = () => {
       if (value.length < 10) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor Biography en az 10 karakter olabilir",
-          isError:true
+          [name]: "Direktor Biography en az 10 karakter olabilir"
         }));
       } else if (value.length > 50) {
         setError((currentError) => ({
           ...currentError,
-          [name]: "Direktor Biography en fazla 50 karakter olabilir",
-          isError:true
+          [name]: "Direktor Biography en fazla 50 karakter olabilir"
         }));
       } else {
-        let newError = { ...error, isError:false };
+        let newError = { ...error};
         delete newError[name];
         setError(newError);
       }
@@ -255,11 +259,10 @@ const NewMovieForm = () => {
     if (name === "image" && value.length < 5) {
       setError((currentError) => ({
         ...currentError,
-        [name]: "En az 10 karakter olmalıdır",
-        isError:true
+        [name]: "En az 10 karakter olmalıdır"
       }));
     } else if (name === "image" && value.length >= 5) {
-      let newError = { ...error, isError:false };
+      let newError = { ...error};
       delete newError[name];
       setError(newError);
     }
@@ -276,7 +279,7 @@ const NewMovieForm = () => {
   };
 
   return (
-    <form className="ui form" onSubmit={handleSubmit}>
+    <form className="ui form" onSubmit={handleSubmit} loading='true'>
       <TextInput
         name="title"
         placeHolder="Enter Title"
@@ -358,7 +361,14 @@ const NewMovieForm = () => {
           <Button.Content visible>Alanları doldurun</Button.Content>
           <Button.Content hidden>Kaydet</Button.Content>
         </Button>
+        {
+          addedMovie.isFilled && addedSuccessfully()
+        }
+        {
+          addedMovie.isRejected.status && addedAnOccurredError()
+        }
       </div>
+      
     </form>
   );
 };

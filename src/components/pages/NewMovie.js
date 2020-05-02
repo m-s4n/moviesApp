@@ -1,12 +1,24 @@
 import React from 'react';
 import NewMovieForm from '../NewMovieForm';
-const NewMovie = () => {
+import {connect} from 'react-redux';
+import {actionAddMovie} from '../../redux/actions/movie/actionAddMovie';
+const NewMovie = ({addedMovie, addMovie}) => {
 
     return (
         <div>
-            <NewMovieForm/>
+            <NewMovieForm addMovie={addMovie} addedMovie={addedMovie}/>
         </div>
     )
 }
 
-export default NewMovie;
+function mapStateToProps(state){
+    return {
+        addedMovie:state.addMovieReducer
+    }
+}
+
+const mapDispatchToProps = {
+    addMovie:actionAddMovie
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewMovie);
