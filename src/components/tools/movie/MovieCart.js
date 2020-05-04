@@ -2,8 +2,7 @@ import React from "react";
 import { Card, Icon, Image, Grid, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-const MovieCart = ({ data, deleteMovie}) => {
-
+const MovieCart = ({ data, deleteMovie }) => {
   return (
     <Grid.Column>
       <Link to={"/movies/" + data._id}>
@@ -28,10 +27,16 @@ const MovieCart = ({ data, deleteMovie}) => {
           <Icon name="arrow right" />
         </Button.Content>
       </Button>
+      <Link to={"/movie/edit/" + data._id}>
+        <Button animated>
+          <Button.Content visible>Edit</Button.Content>
+          <Button.Content hidden>
+            <Icon name="arrow right" />
+          </Button.Content>
+        </Button>
+      </Link>
     </Grid.Column>
   );
 };
-
-
 
 export default MovieCart;

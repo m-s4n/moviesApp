@@ -4,14 +4,43 @@ import SearchSelection from "./tools/forms/SearchSelection";
 import { Button, Image } from "semantic-ui-react";
 import alertify from "alertifyjs";
 
-const NewMovieForm = ({ addMovie, addedMovie }) => {
-  const [movie, setMovie] = useState({});
+const NewMovieForm = ({ islem, responseMovie, selectedMovie, movieId }) => {
+  const [movie, setMovie] = useState({
+    title: "",
+    category: "",
+    country: "",
+    year: "",
+    imdbScore: "",
+    name: "",
+    surname: "",
+    bio: "",
+    image: "",
+  });
   const [error, setError] = useState({});
   const [isAdded, setIsAdded] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
 
   useEffect(() => {
-    showInformation(addedMovie, isAdded);
-  },[addedMovie,isAdded]);
+    showInformation(responseMovie, isAdded);
+    showInformationIsUpdated(responseMovie, isUpdated);
+  }, [responseMovie]);
+
+  useEffect(() => {
+    if (selectedMovie) {
+      setMovie({
+        title: selectedMovie.title,
+        category: selectedMovie.category,
+        country: selectedMovie.country,
+        year: selectedMovie.year,
+        imdbScore: selectedMovie.imdbScore,
+        name: selectedMovie.direktor.name,
+        surname: selectedMovie.direktor.surname,
+        bio: selectedMovie.direktor.bio,
+        image: selectedMovie.image,
+      });
+    }
+  }, [selectedMovie]);
+
   const categories = [
     {
       key: 1,
@@ -88,7 +117,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
     formValidator(name, value);
   };
 
-  const formCheck = () => {
+  /*const formCheck = () => {
     let isFormTrue = true;
     let hasProperties = [
       "title",
@@ -112,23 +141,39 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
       }
     }
     return isFormTrue;
-  };
+  };*/
 
   const showInformation = (addedMovie, isAdded) => {
-      if (addedMovie.isFilled && isAdded) {
-        alertify.success("Movie added successfully");
-        setIsAdded(false);
-      } else if (addedMovie.isRejected.status && isAdded) {
-        alertify.error("An error occurred while add movie");
-        setIsAdded(false);
-      }
+    if (addedMovie.isFilled && isAdded) {
+      alertify.success("Movie added successfully");
+      setIsAdded(false);
+    } else if (addedMovie.isRejected.status && isAdded) {
+      alertify.error("An error occurred while add movie");
+      setIsAdded(false);
+    }
+  };
+
+  const showInformationIsUpdated = (updatedMovie, isUpdate) => {
+    if (updatedMovie.isFilled && isUpdate) {
+      alertify.success("Movie updated successfully");
+      setIsAdded(false);
+    } else if (updatedMovie.isRejected.status && isUpdate) {
+      alertify.error("An error occurred while update movie");
+      setIsAdded(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formCheck()) {
-      addMovie(movie);
-      setIsAdded(true);
+    // error nesnesinde hata yoksa işlem yapılır
+    if (Object.keys(error).length === 0) {
+      if (movieId) {
+        islem(movie, movieId);
+        setIsUpdated(true);
+      } else {
+        islem(movie);
+        setIsAdded(true);
+      }
     }
   };
 
@@ -296,6 +341,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Title"
         onChange={onChangeMovie}
         error={error}
+        value={movie.title}
       />
 
       <SearchSelection
@@ -305,6 +351,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         onSelect={onSelectCategory}
         error={error}
         data={categories}
+        value={movie.category}
       />
 
       <SearchSelection
@@ -314,6 +361,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         onSelect={onSelectCountry}
         error={error}
         data={countries}
+        value={movie.country}
       />
 
       <TextInput
@@ -322,6 +370,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Year"
         onChange={onChangeMovie}
         error={error}
+        value={movie.year}
       />
 
       <TextInput
@@ -330,6 +379,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="IMDB"
         onChange={onChangeMovie}
         error={error}
+        value={movie.imdbScore}
       />
 
       <TextInput
@@ -338,6 +388,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Direktor Name"
         onChange={onChangeMovie}
         error={error}
+        value={movie.name}
       />
 
       <TextInput
@@ -346,6 +397,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Direktor Surname"
         onChange={onChangeMovie}
         error={error}
+        value={movie.surname}
       />
       <TextInput
         name="bio"
@@ -353,6 +405,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Biography"
         onChange={onChangeMovie}
         error={error}
+        value={movie.bio}
       />
 
       <TextInput
@@ -361,6 +414,7 @@ const NewMovieForm = ({ addMovie, addedMovie }) => {
         label="Image URL"
         onChange={onChangeMovie}
         error={error}
+        value={movie.image}
       />
 
       <div className="field">

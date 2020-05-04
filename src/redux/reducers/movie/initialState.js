@@ -21,5 +21,11 @@ export default {
         isFilled:false,
         data:{},
         isRejected:{}
+    },
+
+    updateMovie:{
+        isFilled:false,
+        data:{},
+        isRejected:{}
     }
 }

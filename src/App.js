@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Footer from "./components/Footer";
 import NewMovie from './components/pages/NewMovie';
 import MoviesDetail from "./components/pages/MoviesDetail";
+import EditMovie from "./components/pages/EditMovie";
 
 class App extends Component {
   state = {
@@ -42,6 +43,7 @@ class App extends Component {
             <Route exact path="/movies" component={Movies} />
             <Route exact path="/movies/new" component={NewMovie} />
             <Route exact path='/movies/:id' component={MoviesDetail}/>
+            <Route exact path='/movie/edit/:id' component={EditMovie}/>
           </Switch>
         </Container>
         <Footer/>

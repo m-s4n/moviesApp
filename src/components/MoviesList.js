@@ -1,44 +1,44 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { actionFetchMovies } from "../redux/actions/movie/actionFetchMovies";
+import { Grid, Icon } from "semantic-ui-react";
 import MovieCart from "./tools/movie/MovieCart";
-import LoadingData from "./tools/helpers/LoadingData";
-import alertify from 'alertifyjs';
-import {actionDeleteMovie} from '../redux/actions/movie/actionDeleteMovie';
+import alertify from "alertifyjs";
+import { actionDeleteMovie } from "../redux/actions/movie/actionDeleteMovie";
 
-const MoviesList = ({movies, fetchMovies, deletedMovie, deleteMovie}) => {
-
+const MoviesList = ({ movies, fetchMovies, deletedMovie, deleteMovie }) => {
   const [isDeleted, setIsDeleted] = useState(false);
   useEffect(() => {
     const onDeleteSuccessfuly = (deletedMovie) => {
-      if(deletedMovie.isFilled && isDeleted){
-        alertify.success('Movie delete successfully');
+      if (deletedMovie.isFilled && isDeleted) {
+        alertify.success("Movie delete successfully");
+        setIsDeleted(false);
+      } else if (deletedMovie.isRejected.status && isDeleted) {
+        alertify.error("An error occurred while delete movie");
         setIsDeleted(false);
       }
-      else if(deletedMovie.isRejected.status && isDeleted){
-        alertify.error('An error occurred while delete movie');
-        setIsDeleted(false);
-      }
-    }
+    };
     fetchMovies();
     onDeleteSuccessfuly(deletedMovie);
-    
-  },[deletedMovie])
-
-  
+  }, [deletedMovie]);
 
   const onDelete = (movieId) => {
     deleteMovie(movieId);
     setIsDeleted(true);
-  }
+  };
 
-    return (
-      <div>
-        <LoadingData data={movies} Component={MovieCart} quantityInLine={4} deleteMovie={onDelete}></LoadingData>
-      </div>
-    );
-  }
+  return (
+    <div>
+        <Icon name='film'/> Films
+      <Grid stackable columns={4}>
+        {
+          movies.data.map((item) => <MovieCart key={item._id} data={item} deleteMovie={onDelete}></MovieCart>)
+        }
+      </Grid>
+    </div>
+  );
+};
 
 MoviesList.propTypes = {
   movies: PropTypes.shape({
@@ -52,13 +52,13 @@ MoviesList.propTypes = {
 function mapStateToProps(state) {
   return {
     movies: state.movieReducer,
-    deletedMovie: state.deleteMovieReducer
+    deletedMovie: state.deleteMovieReducer,
   };
 }
 
 const mapDispatchToProps = {
   fetchMovies: actionFetchMovies,
-  deleteMovie: actionDeleteMovie
+  deleteMovie: actionDeleteMovie,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);

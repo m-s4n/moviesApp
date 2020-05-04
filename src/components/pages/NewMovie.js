@@ -6,7 +6,7 @@ const NewMovie = ({addedMovie, addMovie}) => {
 
     return (
         <div>
-            <NewMovieForm addMovie={addMovie} addedMovie={addedMovie}/>
+            <NewMovieForm islem={addMovie} responseMovie={addedMovie}/>
         </div>
     )
 }

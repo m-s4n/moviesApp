@@ -1,5 +1,5 @@
 import React from "react";
-const TextInput = ({ name, label, error, onChange, placeHolder }) => {
+const TextInput = ({ name, label, error, onChange, placeHolder, value }) => {
   let cssStyle = error[name] ? 'field error' : 'field';
   const isError = <div className="ui orange message">{error[name]}</div>
   return (
@@ -9,6 +9,7 @@ const TextInput = ({ name, label, error, onChange, placeHolder }) => {
         placeholder={placeHolder}
         onChange={onChange}
         name={name}
+        value={value}
       ></input>
       {
           error[name] ? isError:null

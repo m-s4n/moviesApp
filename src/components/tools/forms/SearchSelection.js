@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown } from "semantic-ui-react";
 
-const SearchSelection = ({ name, placeHolder, error, label, onSelect, data }) => {
+const SearchSelection = ({ name, placeHolder, error, label, onSelect, data , value}) => {
     const isError = <div className="ui orange message">{error[name]}</div>
   return (
     <div className="field">
@@ -13,7 +13,7 @@ const SearchSelection = ({ name, placeHolder, error, label, onSelect, data }) =>
         options={data}
         onChange={onSelect}
         placeholder={placeHolder}
-        
+        value={value}
       />
       {
           error[name] ? isError : null

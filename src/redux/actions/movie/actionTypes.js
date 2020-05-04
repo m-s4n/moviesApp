@@ -25,3 +25,9 @@ export const DELETE_MOVIE = 'DELETE_MOVIE';
 export const DELETE_MOVIE_PENDING = DELETE_MOVIE + '_' + ActionType.Pending;
 export const DELETE_MOVIE_FULFILLED = DELETE_MOVIE + '_' + ActionType.Fulfilled;
 export const DELETE_MOVIE_REJECTED = DELETE_MOVIE + '_' + ActionType.Rejected;
+
+// update movie 
+export const UPDATE_MOVIE = 'UPDATE_MOVIE';
+export const UPDATE_MOVIE_PENDING = UPDATE_MOVIE + '_' + ActionType.Pending;
+export const UPDATE_MOVIE_FULFILLED = UPDATE_MOVIE + '_' + ActionType.Fulfilled;
+export const UPDATE_MOVIE_REJECTED = UPDATE_MOVIE + '_' + ActionType.Rejected;
