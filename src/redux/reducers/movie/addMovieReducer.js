@@ -3,16 +3,8 @@ import initialState from './initialState';
 
 export function addMovieReducer(state = initialState.addMovies, action){
     switch (action.type) {
-        case actionTypes.ADD_MOVIE_PENDING :
-            return {
-                isPending: true,
-                isFilled: false,
-                data: {},
-                isRejected: {}
-              };
         case actionTypes.ADD_MOVIE_FULFILLED :
             return {
-                isPending: false,
                 isFilled: true,
                 data: {
                     ...action.payload
@@ -21,7 +13,6 @@ export function addMovieReducer(state = initialState.addMovies, action){
               };
         case actionTypes.ADD_MOVIE_REJECTED :
             return{
-                isPending: false,
                 isFilled: false,
                 data:{},
                 isRejected : {

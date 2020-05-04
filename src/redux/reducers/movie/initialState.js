@@ -1,13 +1,23 @@
 export default {
     movies:{
-        isPending:false,
         isFilled:false,
         data:[],
         isRejected:{}
     },
 
     addMovies:{
-        isPending:false,
+        isFilled:false,
+        data:{},
+        isRejected:{}
+    },
+
+    byIdMovie:{
+        isFilled:false,
+        data:{},
+        isRejected:{}
+    },
+
+    deleteMovie:{
         isFilled:false,
         data:{},
         isRejected:{}

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "semantic-ui-react";
 import { ClimbingBoxLoader } from "react-spinners";
 
-const LoadingData = ({ data, Component, quantityInLine }) => {
+const LoadingData = ({ data, Component, quantityInLine, deleteMovie}) => {
   const emptyData = <p>There are not data yet ! </p>;
 
   const pendingData = (
@@ -18,7 +18,7 @@ const LoadingData = ({ data, Component, quantityInLine }) => {
   };
 
   const dataList = (data) =>
-    data.map((item) => <Component key={item._id} data={item}></Component>);
+    data.map((item) => <Component key={item._id} data={item} deleteMovie={deleteMovie}></Component>);
 
   const fetchingData = (data) => {
     if (data.isPending) {

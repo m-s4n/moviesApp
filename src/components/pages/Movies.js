@@ -1,7 +1,7 @@
 import React from 'react';
 import MoviesList from '../MoviesList';
 
-const Movies = (props) => {
+const Movies = () => {
 
     return(
         <div>

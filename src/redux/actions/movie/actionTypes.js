@@ -12,3 +12,16 @@ export const ADD_MOVIE = 'ADD_MOVIE';
 export const ADD_MOVIE_PENDING = ADD_MOVIE + '_' + ActionType.Pending;
 export const ADD_MOVIE_FULFILLED = ADD_MOVIE + '_' + ActionType.Fulfilled;
 export const ADD_MOVIE_REJECTED = ADD_MOVIE + '_' + ActionType.Rejected;
+
+// Fetch movie 
+
+export const FETCH_MOVIE_BY_ID = 'FETCH_MOVIE_BY_ID';
+export const FETCH_MOVIE_BY_ID_PENDING = FETCH_MOVIE_BY_ID + '_' + ActionType.Pending;
+export const FETCH_MOVIE_BY_ID_FULFILLED = FETCH_MOVIE_BY_ID + '_' + ActionType.Fulfilled;
+export const FETCH_MOVIE_BY_ID_REJECTED = FETCH_MOVIE_BY_ID + '_' + ActionType.Rejected;
+
+//Delete movie
+export const DELETE_MOVIE = 'DELETE_MOVIE';
+export const DELETE_MOVIE_PENDING = DELETE_MOVIE + '_' + ActionType.Pending;
+export const DELETE_MOVIE_FULFILLED = DELETE_MOVIE + '_' + ActionType.Fulfilled;
+export const DELETE_MOVIE_REJECTED = DELETE_MOVIE + '_' + ActionType.Rejected;
