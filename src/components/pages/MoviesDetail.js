@@ -1,26 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {connect} from 'react-redux';
-import {actionFetchMovieById} from '../../redux/actions/movie/actionFetchMovieById';
 import MovieCartDetail from '../tools/movie/MovieCartDetail';
-function MoviesDetail({fetchMovieById, match, selectedMovie}) {
+import {actionFetchMovies} from '../../redux/actions/movie/actionFetchMovies';
+function MoviesDetail({fetchMovies, selectedMovie, movies}) {
+
+    useEffect(() => {
+        if(movies.length === 0){
+            fetchMovies();
+        }
+    },[])
     return (
         <div>
             {
-                selectedMovie.data._id ? <MovieCartDetail movie={selectedMovie.data} /> :null
+                selectedMovie ? <MovieCartDetail movie={selectedMovie} /> :null
             }
         </div>
     )
 }
 
+function searchMovie(movies, movieId){
+    return movies.filter(movie => movie._id === movieId);
+}
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
+    let selectedMovie = searchMovie(state.movieReducer.data, ownProps.match.params.id);
     return{
-        selectedMovie: state.movieByIdReducer
+        selectedMovie:selectedMovie[0],
+        movies:state.movieReducer.data
     }
 }
 
 const mapDispatchToProps = {
-    fetchMovieById:actionFetchMovieById
+    fetchMovies:actionFetchMovies
 }
 
 

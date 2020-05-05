@@ -4,7 +4,7 @@ const Home = () => {
 
     return(
         <div>
-            Ana Sayfa
+            Home Page
         </div>
     )
 }
