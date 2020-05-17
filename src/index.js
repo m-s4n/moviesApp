@@ -7,6 +7,12 @@ import {store} from './redux/store/configureStore';
 import {BrowserRouter} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import 'alertifyjs/build/css/alertify.min.css';
+import {authorizationCheck} from './services/authorizationCheck';
+import {loginSuccess} from './redux/actions/login/actionLogin';
+
+
+// sayfa yenilendiğinde local storage'da token varsa kontrol ediliyor.
+authorizationCheck(store,loginSuccess);
 
 ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById("root"));
 
